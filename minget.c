@@ -4,7 +4,7 @@
 #include "minlib.h"
 
 void parseArgs(data_t *data, int argc, const char * argv[]);
-void copyFile(const data_t *data);
+void copyFile(data_t *data);
 void printHelp();
 
 int main(int argc, const char *argv[]) {
@@ -14,7 +14,9 @@ int main(int argc, const char *argv[]) {
    openImage(&data);
    openParts(&data);
    readSuper(&data);
+   copyFile(&data);
    
+   closeImage(&data);
    
    return 0;
 }
@@ -55,8 +57,39 @@ void parseArgs(data_t *data, int argc, const char * argv[]) {
    }
 }
 
-void copyFile(const data_t *data) {
-   printf("copy file");
+void copyFile(data_t *data) {
+   file_t *file;
+   
+   file = openFileFromPath(data, data->path);
+   
+   if (file) {
+      loadFile(data, file);
+      
+      if (data->host) { // write to a file
+         FILE *fout = fopen(data->host, "wb");
+         
+         if (!fout) {
+            printf("Could not open outfile\n");
+            closeFile(file);
+            closeImage(data);
+            exit(1);
+         }
+         
+         fwrite(file->contents, file->node.size, 1, fout);
+         fclose(fout);
+         printf("write to file %s\n", data->host);
+      }
+      else { // write to console
+         printf("%s", (char*)file->contents);
+      }
+      
+      closeFile(file);
+   }
+   else {
+      printf("%s: File not found.\n", data->path);
+      closeImage(data);
+      exit(1);
+   }
 }
 
 void printHelp() {
