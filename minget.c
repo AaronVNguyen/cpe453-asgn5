@@ -82,7 +82,7 @@ void copyFile(data_t *data) {
          
          fwrite(file->contents, file->node.size, 1, fout);
          fclose(fout);
-         printf("write to file %s\n", data->host);
+//         printf("write to file %s\n", data->host);
       }
       else {
          // write to console
