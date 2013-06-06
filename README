@@ -1,0 +1,7 @@
+Robert Crosby (rcrosby)
+
+To build all the programs use either "make" or
+"make all". To build only minls use "make minls"
+and to build only minget use "make minget".
+
+
