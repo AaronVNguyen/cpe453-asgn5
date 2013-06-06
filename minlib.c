@@ -192,9 +192,17 @@ void loadFile(const data_t *data, file_t *file) {
 		file->contents = (uint8_t*) malloc(size);
 		cur = file->contents;
 
-		for (i = 0; i < DIRECT_ZONES && size > 0 && file->node.zone[i]; ++i) {
-			long transfer = size < data->zoneSize ? size : data->zoneSize;
-			long offset = data->start + data->zoneSize * file->node.zone[i];
+		i = 0;
+		while (i < DIRECT_ZONES && size > 0 && file->node.zone[i]) {
+			long transfer = 0;
+			if (size < data->zoneSize) {
+				transfer = size;
+			} else {
+				transfer = data->zoneSize;
+			}
+
+			long offset = data->start;
+			offset += (data->zoneSize * file->node.zone[i]);
 
 			fseek(data->file, offset, SEEK_SET);
 			fread((void*) buff, transfer, 1, data->file);
@@ -202,6 +210,8 @@ void loadFile(const data_t *data, file_t *file) {
 
 			size -= data->zoneSize;
 			cur += data->zoneSize;
+
+			i++;
 		}
 
 		free(buff);
@@ -220,7 +230,7 @@ void loadDir(const data_t *data, file_t *dir) {
 		int i;
 
 		dir->numEntries = dir->node.size / sizeof(entry_t);
-		dir->entries = (entry_t*) malloc(dir->numEntries * sizeof(entry_t));
+		dir->entries = malloc(dir->numEntries * sizeof(entry_t));
 		for (i = 0, cur = dir->entries; i < dir->numEntries;
 				++i, ++cur, ++entry)
 			*cur = *entry;
@@ -237,7 +247,8 @@ void printPTable(ptable_t *part) {
 	int i;
 
 	printf("       ----Start----      ------End-----\n");
-	printf("  Boot head  sec  cyl Type head  sec  cyl      First       Size\n");
+	printf("  Boot head  sec  cyl "
+			"Type head  sec  cyl      First       Size\n");
 
 	for (i = 0; i < 4; ++i, ++part) {
 		printf("  0x%02x ", part->bootind);

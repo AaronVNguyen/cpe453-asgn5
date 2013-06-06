@@ -65,12 +65,13 @@ void parseArgs(data_t *data, int argc, const char * argv[], const char *app) {
 }
 
 void printHelp() {
-	printf("usage: minls [ -v ] [ -p num [ -s num ] ] imagefile [ path ]\n");
+	printf("usage: minls [ -v ] [ -p num [ -s num ] ] "
+			"imagefile [ path ]\n");
 	printf("Options:\n");
-	printf(
-			"\t-p\tpart    --- select partition for filesystem (default: none)\n");
-	printf(
-			"\t-s\tsub     --- select subpartition for filesystem (default: none)\n");
+	printf("\t-p\tpart    --- select partition "
+			"for filesystem (default: none)\n");
+	printf("\t-s\tsub     --- select subpartition "
+			"for filesystem (default: none)\n");
 	printf("\t-h\thelp    --- print usage information and exit\n");
 	printf("\t-v\tverbose --- increase verbosity level\n");
 }

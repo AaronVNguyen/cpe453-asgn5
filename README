@@ -1,5 +1,4 @@
 Robert Crosby (rcrosby)
-Girum Ibssa (gibssa)
 
 To build all the programs use either "make" or
 "make all". To build only minls use "make minls"

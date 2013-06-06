@@ -27,3 +27,35 @@ echo ""
 echo "minls TestImage /src"
 ./minls $IMAGE /src
 echo ""
+
+echo "minls Partitioned"
+./minls $P_IMAGE
+echo ""
+
+echo "minls -p 1 -s 0 Partitioned"
+./minls -p 1 -s 0 $P_IMAGE
+echo ""
+
+echo "minls -p 0 Partitioned"
+./minls -p 0 $P_IMAGE
+echo ""
+
+echo "minls -p 1 Partitioned"
+./minls -p 1 $P_IMAGE
+echo ""
+
+echo "minls -p 2 Partitioned"
+./minls -p 2 $P_IMAGE
+echo ""
+
+echo "minls -p 3 Partitioned"
+./minls -p 3 $P_IMAGE
+echo ""
+
+echo "minls -p 1 Partitioned /"
+./minls -p 1 $P_IMAGE /
+echo ""
+
+
+
+
