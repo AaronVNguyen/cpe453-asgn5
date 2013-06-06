@@ -195,13 +195,18 @@ void loadFile(const data_t *data, file_t *file) {
       file->contents = (uint8_t*)malloc(size);
       cur = file->contents;
       
-      for (i = 0; i < DIRECT_ZONES && size > 0 && file->node.zone[i]; ++i) {
+      for (i = 0; i < DIRECT_ZONES && size > 0; ++i) {
          long transfer = size < data->zoneSize ? size : data->zoneSize;
-         long offset = data->start + data->zoneSize * file->node.zone[i];
          
-         fseek(data->file, offset, SEEK_SET);
-         fread((void*)buff, transfer, 1, data->file);
-         memcpy(cur, buff, transfer);
+         if (file->node.zone[i]) {
+            long offset = data->start + data->zoneSize * file->node.zone[i];
+            
+            fseek(data->file, offset, SEEK_SET);
+            fread((void*)buff, transfer, 1, data->file);
+            memcpy(cur, buff, transfer);
+         }
+         else
+            memset(cur, 0, transfer);
          
          size -= data->zoneSize;
          cur += data->zoneSize;
