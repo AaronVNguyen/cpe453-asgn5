@@ -5,3 +5,10 @@ To build all the programs use either "make" or
 "make all". To build only minls use "make minls"
 and to build only minget use "make minget".
 
+Girum's backstory on this assignment: I worked on 
+this assignment solo to catch up to where Robert
+was before I officially joined on. My code is
+available on GitHub: https://github.com/the-real-girum/cpe453/tree/master/asgn5
+We had matching functionality before I moved onto
+join Robert (minls working almost 100%, albeit
+some bugs with reading files with holes).
